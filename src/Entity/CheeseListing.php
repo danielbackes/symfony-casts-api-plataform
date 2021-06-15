@@ -4,8 +4,9 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\CheeseListingRepository;
-use Doctrine\ORM\Mapping as ORM;
 use Carbon\Carbon;
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ApiResource(
@@ -16,6 +17,18 @@ use Carbon\Carbon;
  *      itemOperations={
  *          "get",
  *          "put"
+ *      },
+ *      normalizationContext={
+ *          "groups"={
+ *              "cheese_listing:read"
+ *          },
+ *          "swagger_definition_name"="Read",
+ *      },
+ *      denormalizationContext={
+ *          "groups"={
+ *              "cheese_listing:write"
+ *          },
+ *          "swagger_definition_name"="Write",
  *      },
  *      shortName="cheeses"
  * )
@@ -32,18 +45,29 @@ class CheeseListing
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({
+     *      "cheese_listing:read",
+     *      "cheese_listing:write"
+     * })
      */
     private $title;
 
     /**
      * @ORM\Column(type="text")
+     * @Groups({
+     *      "cheese_listing:read"
+     * })
      */
     private $description;
 
     /**
      * The price of this delicious cheese, in cents.
-     * 
+     *
      * @ORM\Column(type="integer")
+     * @Groups({
+     *      "cheese_listing:read",
+     *      "cheese_listing:write"
+     * })
      */
     private $price;
 
@@ -55,11 +79,11 @@ class CheeseListing
     /**
      * @ORM\Column(type="boolean")
      */
-    private $isPublished;
+    private $isPublished = false;
 
     public function __construct()
     {
-        $this->createAt = new \DateTimeImmutable();
+        $this->createdAt = new \DateTimeImmutable();
     }
 
     public function getId(): ?int
@@ -84,12 +108,26 @@ class CheeseListing
         return $this->description;
     }
 
+    public function setDescription(string $description): self
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * The description of the cheese as raw text.
+     *
+     * @Groups({
+     *    "cheese_listing:write"
+     * })
+     */
     public function setTextDescription(string $description): self
     {
         $this->description = nl2br($description);
 
         return $this;
-    }    
+    }
 
     public function getPrice(): ?int
     {
@@ -108,6 +146,13 @@ class CheeseListing
         return $this->createdAt;
     }
 
+    /**
+     * How long ago int text that this cheese listing was added.
+     *
+     * @Groups({
+     *    "cheese_listing:read"
+     * })
+     */
     public function getCreatedAtAgo(): string
     {
         return Carbon::instance($this->createdAt)->diffForHumans();
