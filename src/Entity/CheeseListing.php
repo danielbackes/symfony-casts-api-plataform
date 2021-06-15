@@ -5,9 +5,20 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\CheeseListingRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Carbon\Carbon;
 
 /**
- * @ApiResource()
+ * @ApiResource(
+ *      collectionOperations={
+ *          "get",
+ *          "post"
+ *      },
+ *      itemOperations={
+ *          "get",
+ *          "put"
+ *      },
+ *      shortName="cheeses"
+ * )
  * @ORM\Entity(repositoryClass=CheeseListingRepository::class)
  */
 class CheeseListing
@@ -46,6 +57,11 @@ class CheeseListing
      */
     private $isPublished;
 
+    public function __construct()
+    {
+        $this->createAt = new \DateTimeImmutable();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -68,12 +84,12 @@ class CheeseListing
         return $this->description;
     }
 
-    public function setDescription(string $description): self
+    public function setTextDescription(string $description): self
     {
-        $this->description = $description;
+        $this->description = nl2br($description);
 
         return $this;
-    }
+    }    
 
     public function getPrice(): ?int
     {
@@ -92,11 +108,9 @@ class CheeseListing
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    public function getCreatedAtAgo(): string
     {
-        $this->createdAt = $createdAt;
-
-        return $this;
+        return Carbon::instance($this->createdAt)->diffForHumans();
     }
 
     public function getIsPublished(): ?bool
