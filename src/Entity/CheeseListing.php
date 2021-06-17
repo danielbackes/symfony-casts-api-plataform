@@ -37,7 +37,10 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
  *          },
  *          "swagger_definition_name"="Write",
  *      },
- *      shortName="cheeses"
+ *      shortName="cheeses",
+ *      attributes={
+ *        "pagination_items_per_page"=5,
+ *      }
  * )
  * @ApiFilter(
  *      BooleanFilter::class,
