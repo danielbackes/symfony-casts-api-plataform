@@ -12,6 +12,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Valid;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
@@ -85,10 +86,19 @@ class User implements UserInterface
     private $username;
 
     /**
-     * @ORM\OneToMany(targetEntity=CheeseListing::class, mappedBy="owner")
+     * @ORM\OneToMany(
+     *      targetEntity=CheeseListing::class,
+     *      mappedBy="owner",
+     *      cascade={
+     *        "persist",
+     *      },
+     *      orphanRemoval=true,
+     * )
      * @Groups({
      *      "user:read",
+     *      "user:write",
      * })
+     * @Valid()
      */
     private $cheeseListings;
 

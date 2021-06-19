@@ -95,7 +95,8 @@ class CheeseListing
      * @Groups({
      *      "cheese_listing:read",
      *      "cheese_listing:write",
-     *      "user:read"
+     *      "user:read",
+     *      "user:write",
      * })
      * @NotBlank()
      * @Length(
@@ -122,7 +123,8 @@ class CheeseListing
      * @Groups({
      *      "cheese_listing:read",
      *      "cheese_listing:write",
-     *      "user:read"
+     *      "user:read",
+     *      "user:write",
      * })
      * @NotBlank()
      */
@@ -193,7 +195,8 @@ class CheeseListing
      * The description of the cheese as raw text.
      *
      * @Groups({
-     *    "cheese_listing:write"
+     *    "cheese_listing:write",
+     *    "user:write",
      * })
      * @SerializedName("description")
      */
