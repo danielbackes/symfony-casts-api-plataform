@@ -71,6 +71,8 @@ use Symfony\Component\Validator\Constraints\Valid;
  *      properties={
  *        "title": "partial",
  *        "description": "partial",
+ *        "owner": "exact",
+ *        "owner.username": "partial",
  *      }
  * )
  * @ApiFilter(
