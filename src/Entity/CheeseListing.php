@@ -24,7 +24,14 @@ use Symfony\Component\Validator\Constraints\NotBlank;
  *          "post"
  *      },
  *      itemOperations={
- *          "get",
+ *          "get"={
+ *              "normalization_context"={
+ *                  "groups"={
+ *                      "cheese_listing:read",
+ *                      "cheese_listing:item:get",
+ *                  }
+ *              }
+ *          },
  *          "put"
  *      },
  *      normalizationContext={
@@ -86,7 +93,8 @@ class CheeseListing
      * @ORM\Column(type="string", length=255)
      * @Groups({
      *      "cheese_listing:read",
-     *      "cheese_listing:write"
+     *      "cheese_listing:write",
+     *      "user:read"
      * })
      * @NotBlank()
      * @Length(
@@ -112,7 +120,8 @@ class CheeseListing
      * @ORM\Column(type="integer")
      * @Groups({
      *      "cheese_listing:read",
-     *      "cheese_listing:write"
+     *      "cheese_listing:write",
+     *      "user:read"
      * })
      * @NotBlank()
      */
