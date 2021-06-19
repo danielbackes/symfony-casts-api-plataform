@@ -15,6 +15,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Annotation\SerializedName;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Valid;
 
 /**
  * @ORM\Entity(repositoryClass=CheeseListingRepository::class)
@@ -144,6 +145,7 @@ class CheeseListing
      *      "cheese_listing:read",
      *      "cheese_listing:write"
      * })
+     * @Valid()
      */
     private $owner;
 

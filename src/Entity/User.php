@@ -78,6 +78,7 @@ class User implements UserInterface
      *      "user:read",
      *      "user:write",
      *      "cheese_listing:item:get",
+     *      "cheese_listing:write",
      * })
      * @NotBlank()
      */
